@@ -40,7 +40,6 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(response);
       const { data } = response;
       if (data.success) {
         dispatch({ type: "STORE", payload: data.accessToken });
