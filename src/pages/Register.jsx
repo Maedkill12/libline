@@ -47,11 +47,15 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(`${URL_API}/auth/register`, {
-        username,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${URL_API}/auth/register`,
+        {
+          username,
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       const { data } = response;
       if (data.success) {
         navigate("/login");

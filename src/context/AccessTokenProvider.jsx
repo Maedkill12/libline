@@ -7,6 +7,12 @@ const accessTokenReducer = function (state, action) {
     case "STORE": {
       return { ...state, accessToken: action.payload };
     }
+    case "DELETE": {
+      return { ...state, accessToken: null };
+    }
+    default: {
+      return state;
+    }
   }
 };
 

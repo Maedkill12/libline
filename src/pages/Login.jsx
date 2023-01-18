@@ -32,13 +32,17 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post(`${URL_API}/auth/login`, {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        `${URL_API}/auth/login`,
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      );
+      console.log(response);
       const { data } = response;
       if (data.success) {
-        console.log(data);
         dispatch({ type: "STORE", payload: data.accessToken });
         navigate("/");
       }
