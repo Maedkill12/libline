@@ -2,33 +2,17 @@ import React, { useState } from "react";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { GrNotification } from "react-icons/gr";
-import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import DropdownMenu from "./DropdownMenu";
-import axios from "axios";
-import { URL_API } from "../constants";
-import useAccessToken from "../hooks/useAccessToken";
+import useLogout from "../hooks/useLogout";
 
 const ProfileMenu = () => {
-  const { dispatch } = useAccessToken();
-  const navigate = useNavigate();
+  const { logout, isPending } = useLogout();
 
   const logoutHandler = async () => {
-    try {
-      const response = await axios.post(
-        `${URL_API}/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-      const data = response.data;
-      if (data.success) {
-        dispatch({ type: "DELETE" });
-        navigate("/");
-      }
-    } catch (error) {
-      const msg = error.response.data.err;
-      console.log(msg);
+    if (!isPending) {
+      logout();
     }
   };
   return (
@@ -42,7 +26,9 @@ const ProfileMenu = () => {
         <p>Settings</p>
       </li>
       <li
-        className="pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 cursor-pointer flex flex-row items-center gap-4"
+        className={`pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 flex flex-row items-center gap-4 ${
+          isPending ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
         onClick={logoutHandler}
       >
         <RiLogoutBoxRFill size={24} />

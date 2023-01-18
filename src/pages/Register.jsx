@@ -1,68 +1,19 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import IconButton from "../components/IconButton";
 import Input from "../components/Input";
-import { URL_API } from "../constants";
+import useSignup from "../hooks/useSignup";
 
 const Register = () => {
   const [username, setUsernmae] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const { signup, error, isPending } = useSignup();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setError(null);
-
-    if (!username || !email || !password || !confirmPass) {
-      setError("All fields are required");
-      return;
-    }
-
-    if (username.length < 3 || username.length > 20) {
-      setError("Username length must be between 3 and 20 characters");
-      return;
-    }
-
-    if (password.length < 3) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
-
-    if (
-      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-      )
-    ) {
-      setError("Invalid email");
-      return;
-    }
-
-    if (password !== confirmPass) {
-      setError("Password doesn't match");
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        `${URL_API}/auth/register`,
-        {
-          username,
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
-      const { data } = response;
-      if (data.success) {
-        navigate("/login");
-      }
-    } catch (error) {
-      const msg = error.response.data.err;
-      setError(msg);
+    if (!isPending) {
+      await signup(username, email, password, confirmPass);
     }
   };
 
@@ -120,7 +71,12 @@ const Register = () => {
             required={true}
             style="mb-4"
           />
-          <IconButton style={"justify-center w-full"} type="submit">
+          <IconButton
+            style={`justify-center w-full ${
+              isPending ? "cursor-not-allowed" : ""
+            }`}
+            type="submit"
+          >
             Sign Up
           </IconButton>
         </form>

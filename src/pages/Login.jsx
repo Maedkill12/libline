@@ -1,53 +1,18 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import IconButton from "../components/IconButton";
 import Input from "../components/Input";
-import { URL_API } from "../constants";
-import useAccessToken from "../hooks/useAccessToken";
+import useLogin from "../hooks/useLogin";
 
 const Login = () => {
   const [username, setUsernmae] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const { dispatch } = useAccessToken();
-  const navigate = useNavigate();
+  const { login, error, isPending } = useLogin();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setError(null);
 
-    if (!username || !password) {
-      setError("All fields are required");
-      return;
-    }
-
-    if (username.length < 3 || username.length > 20) {
-      setError("Username length must be between 3 and 20 characters");
-      return;
-    }
-
-    if (password.length < 3) {
-      setError("Password must be at least 8 characters");
-      return;
-    }
-    try {
-      const response = await axios.post(
-        `${URL_API}/auth/login`,
-        {
-          username,
-          password,
-        },
-        { withCredentials: true }
-      );
-      const { data } = response;
-      if (data.success) {
-        dispatch({ type: "STORE", payload: data.accessToken });
-        navigate("/");
-      }
-    } catch (error) {
-      const msg = error.response.data.err;
-      setError(msg);
+    if (!isPending) {
+      await login(username, password);
     }
   };
   return (
@@ -80,7 +45,13 @@ const Login = () => {
             required={true}
             style="mb-4"
           />
-          <IconButton style={"justify-center w-full"} type="submit">
+
+          <IconButton
+            style={`justify-center w-full ${
+              isPending ? "cursor-not-allowed" : ""
+            }`}
+            type="submit"
+          >
             Login
           </IconButton>
         </form>
