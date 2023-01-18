@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useAccessToken from "../hooks/useAccessToken";
 import axios from "axios";
 import { URL_API } from "../constants";
+import Logo from "./Logo";
 
 const headerMenu = [
   { text: "Login", icon: <FaUserCircle />, path: "/login" },
@@ -40,8 +41,10 @@ const Header = () => {
   };
 
   return (
-    <header className="flex flex-row justify-between p-4 bg-slate-100">
-      <div onClick={() => navigate("/")}>logo</div>
+    <header className="flex flex-row justify-between p-4 items-center bg-slate-100">
+      <div onClick={() => navigate("/")}>
+        <Logo />
+      </div>
       <div className="">
         <nav className="list-none flex flex-row gap-2">
           {!accessToken &&
