@@ -11,7 +11,7 @@ import useAccessToken from "../hooks/useAccessToken";
 
 const ProfileMenu = () => {
   const { logout, isPending } = useLogout();
-  const { userId } = useAccessToken();
+  const { username } = useAccessToken();
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
@@ -23,7 +23,7 @@ const ProfileMenu = () => {
     <ul className="w-[280px] absolute bg-white right-4 top-8 py-4 rounded-lg shadow-lg shadow-slate-500 ">
       <li
         className="pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 cursor-pointer flex flex-row items-center gap-4"
-        onClick={() => navigate(`/profile/${userId}`)}
+        onClick={() => navigate(`/profile/${username}`)}
       >
         <FaUserCircle size={24} />
         <p>Profile</p>

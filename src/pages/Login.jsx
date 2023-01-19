@@ -6,6 +6,7 @@ import useLogin from "../hooks/useLogin";
 const Login = () => {
   const [username, setUsernmae] = useState("");
   const [password, setPassword] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const { login, error, isPending } = useLogin();
 
   const submitHandler = async (e) => {
@@ -45,7 +46,6 @@ const Login = () => {
             required={true}
             style="mb-4"
           />
-
           <IconButton
             style={`justify-center w-full ${
               isPending ? "cursor-not-allowed" : ""

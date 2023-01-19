@@ -9,7 +9,7 @@ const useSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false);
   const navigate = useNavigate();
 
-  const signup = async (username, email, password, confirmPass) => {
+  const signup = async (username, email, password, confirmPass, photoURL) => {
     setError(null);
     setIsPending(true);
 
@@ -47,6 +47,12 @@ const useSignup = () => {
       return;
     }
 
+    if (photoURL !== "" && !/\.(jpe?g|png|gif|bmp|webp)$/i.test(photoURL)) {
+      setError("Photo URL is not valid");
+      setIsPending(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${URL_API}/auth/register`,
@@ -54,6 +60,7 @@ const useSignup = () => {
           username,
           email,
           password,
+          photoURL,
         },
         { withCredentials: true }
       );

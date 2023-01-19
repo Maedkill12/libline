@@ -48,7 +48,7 @@ const useLogin = () => {
       }
       if (data.success) {
         dispatch({ type: "STORE_TOKEN", payload: data.accessToken });
-        dispatch({ type: "STORE_USER_ID", payload: data.userId });
+        dispatch({ type: "STORE_USERNAME", payload: data.username });
         navigate("/");
       }
     } catch (error) {

@@ -28,7 +28,7 @@ const useLogout = () => {
       }
       if (data.success) {
         dispatch({ type: "DELETE_TOKEN" });
-        dispatch({ type: "DELETE_USER_ID" });
+        dispatch({ type: "DELETE_USERNAME" });
         navigate("/");
       }
     } catch (error) {

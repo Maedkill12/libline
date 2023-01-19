@@ -8,12 +8,13 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const { signup, error, isPending } = useSignup();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!isPending) {
-      await signup(username, email, password, confirmPass);
+      await signup(username, email, password, confirmPass, photoURL);
     }
   };
 
@@ -70,6 +71,17 @@ const Register = () => {
             textLabel="Confirm Password"
             required={true}
             style="mb-4"
+          />
+          <Input
+            inputOptions={{
+              id: "photo-url",
+              placeholder: "mywebsite.com/images/user.png",
+              type: "url",
+              onChange: (e) => setPhotoURL(e.target.value),
+              value: photoURL,
+            }}
+            textLabel="Profile Photo URL"
+            style={"mb-4"}
           />
           <IconButton
             style={`justify-center w-full ${
