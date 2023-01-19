@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import useRefreshToken from "./hooks/useRefreshToken";
 import Discover from "./pages/Discover";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<Discover />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile/:id" element={<Profile />} />
         </Routes>
       </Layout>
     </BrowserRouter>

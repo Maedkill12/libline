@@ -6,9 +6,13 @@ import { FaUserCircle } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import DropdownMenu from "./DropdownMenu";
 import useLogout from "../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
+import useAccessToken from "../hooks/useAccessToken";
 
 const ProfileMenu = () => {
   const { logout, isPending } = useLogout();
+  const { userId } = useAccessToken();
+  const navigate = useNavigate();
 
   const logoutHandler = async () => {
     if (!isPending) {
@@ -17,7 +21,10 @@ const ProfileMenu = () => {
   };
   return (
     <ul className="w-[280px] absolute bg-white right-4 top-8 py-4 rounded-lg shadow-lg shadow-slate-500 ">
-      <li className="pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 cursor-pointer flex flex-row items-center gap-4">
+      <li
+        className="pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 cursor-pointer flex flex-row items-center gap-4"
+        onClick={() => navigate(`/profile/${userId}`)}
+      >
         <FaUserCircle size={24} />
         <p>Profile</p>
       </li>
