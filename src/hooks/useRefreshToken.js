@@ -1,35 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { URL_API } from "../constants";
 import useAccessToken from "./useAccessToken";
 
-const useLogout = () => {
+const useRefreshToken = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
   const { dispatch } = useAccessToken();
-  const navigate = useNavigate();
 
-  const logout = async () => {
-    setError(null);
+  const refresh = async () => {
     setIsPending(true);
-
+    setError(null);
     try {
-      const response = await axios.post(
-        `${URL_API}/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      const response = await axios.get(`${URL_API}/auth/refresh`, {
+        withCredentials: true,
+      });
       const data = response.data;
       if (!isCancelled) {
         setError(null);
         setIsPending(false);
       }
       if (data.success) {
-        dispatch({ type: "DELETE_TOKEN" });
-        dispatch({ type: "DELETE_USER_ID" });
-        navigate("/");
+        dispatch({ type: "STORE_TOKEN", payload: data.accessToken });
+        dispatch({ type: "STORE_USER_ID", payload: data.userId });
       }
     } catch (error) {
       if (!isCancelled) {
@@ -46,7 +40,7 @@ const useLogout = () => {
     return () => setIsCancelled(true);
   }, []);
 
-  return { logout, error, isPending };
+  return { error, isPending, refresh };
 };
 
-export default useLogout;
+export default useRefreshToken;

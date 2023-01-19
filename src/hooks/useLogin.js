@@ -47,7 +47,9 @@ const useLogin = () => {
         setError(null);
       }
       if (data.success) {
-        dispatch({ type: "STORE", payload: data.accessToken });
+        dispatch({ type: "STORE_TOKEN", payload: data.accessToken });
+        dispatch({ type: "STORE_USER_ID", payload: data.userId });
+        console.log(data.userId);
         navigate("/");
       }
     } catch (error) {
