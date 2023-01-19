@@ -10,10 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="flex flex-row justify-between p-4 items-center bg-slate-100">
-      <div onClick={() => navigate("/")}>
-        <Logo />
-      </div>
+    <header className="flex flex-row justify-end p-4 items-center bg-slate-100">
       <div>
         {!accessToken && <LoggedOutMenu />}
         {accessToken && <LoggedInMenu />}
