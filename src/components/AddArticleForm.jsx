@@ -8,10 +8,12 @@ const AddArticleForm = () => {
   const [year, setYear] = useState("");
   const { error, isPending, save } = useArticle();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     if (!isPending) {
-      save(title, year);
+      await save(title, year);
+      setTitle("");
+      setYear("");
     }
   };
 

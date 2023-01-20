@@ -5,7 +5,7 @@ import Logo from "./Logo";
 const SideBar = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen flex-grow bg-slate-800">
+    <div className="min-h-screen fixed min-w-[240px] bg-slate-800">
       <div onClick={() => navigate("/")}>
         <Logo />
       </div>

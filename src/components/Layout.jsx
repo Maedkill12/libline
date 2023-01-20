@@ -5,12 +5,14 @@ import SideBar from "./SideBar";
 const Layout = ({ children }) => {
   return (
     <div className="flex flex-row ">
-      <div className="w-[240px] flex">
+      <div className="w-[240px]">
         <SideBar />
       </div>
       <div className="flex-1 flex flex-col">
         <Header />
-        <div className="bg-slate-50 flex-grow flex">{children}</div>
+        <div className="bg-slate-50 flex-grow flex mt-16 min-h-[calc(100vh-4rem)]">
+          {children}
+        </div>
       </div>
     </div>
   );
