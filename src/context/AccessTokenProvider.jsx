@@ -10,11 +10,15 @@ const accessTokenReducer = function (state, action) {
     case "DELETE_TOKEN": {
       return { ...state, accessToken: null };
     }
-    case "STORE_USERNAME": {
-      return { ...state, username: action.payload };
+    case "STORE_USER_INFO": {
+      return {
+        ...state,
+        username: action.payload.username,
+        userId: action.payload.userId,
+      };
     }
-    case "DELETE_USERNAME": {
-      return { ...state, username: null };
+    case "DELETE_USER_INFO": {
+      return { ...state, username: null, userId: null };
     }
     default: {
       return state;
@@ -26,6 +30,7 @@ const AccessTokenProvider = ({ children }) => {
   const [state, dispatch] = useReducer(accessTokenReducer, {
     accessToken: null,
     username: null,
+    userId: null,
   });
   return (
     <AccessTokenContext.Provider value={{ ...state, dispatch }}>

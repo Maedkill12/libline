@@ -5,7 +5,7 @@ import SideBar from "./SideBar";
 const Layout = ({ children }) => {
   return (
     <div className="flex flex-row ">
-      <div className="w-[240px]">
+      <div className="w-[240px] flex">
         <SideBar />
       </div>
       <div className="flex-1 flex flex-col">

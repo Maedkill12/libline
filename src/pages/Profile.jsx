@@ -10,18 +10,16 @@ import IconButton from "../components/IconButton";
 import useModal from "../hooks/useModal";
 import AddArticleForm from "../components/AddArticleForm";
 import ArticleCardList from "../components/ArticleCardList";
-
-const articles = [
-  { _id: 1, title: "la flora de zacatecas", author: "maed", year: 2022 },
-  { _id: 2, title: "la fauna de zacatecas", author: "maed", year: 2022 },
-];
+import useArticle from "../hooks/useArticle";
 
 const Profile = () => {
   const [photoURL, setPhotoURL] = useState(null);
   const [isPending, setIsPending] = useState(false);
+  const [articlesList, setArticlesList] = useState([]);
   const { username } = useParams();
   const { username: userLogged } = useAccessToken();
   const { Modal, closeModal, openModal } = useModal();
+  const { getArticlesByAuthor } = useArticle();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +41,15 @@ const Profile = () => {
       }
     };
     getUser();
+  }, []);
+
+  useEffect(() => {
+    const getArticles = async () => {
+      const articles = await getArticlesByAuthor(username);
+      setArticlesList(articles);
+      console.log(articles);
+    };
+    getArticles();
   }, []);
 
   return (
@@ -96,7 +103,7 @@ const Profile = () => {
                 )}
               </div>
               <div className="mt-4">
-                <ArticleCardList articles={articles} />
+                <ArticleCardList articles={articlesList} />
               </div>
             </section>
           </div>

@@ -51,7 +51,7 @@ const useArticle = () => {
       }
       if (data.success) {
         console.log("Article created");
-        navigate(`/`);
+        // navigate(`/`);
       }
     } catch (error) {
       if (!isCancelled) {
@@ -66,12 +66,45 @@ const useArticle = () => {
     }
   };
 
+  const getArticlesByAuthor = async (author) => {
+    createAuthRefreshInterceptor();
+    setError(null);
+    setIsPending(true);
+
+    try {
+      const response = await axios.get(
+        `${URL_API}/articles?username=${author}`,
+        {
+          withCredentials: true,
+        }
+      );
+      const { data } = response;
+      if (!isCancelled) {
+        setIsPending(false);
+        setError(null);
+      }
+      if (data.success) {
+        console.log("Articles gotten");
+        return data.data;
+        // navigate(`/`);
+      }
+    } catch (error) {
+      if (!isCancelled) {
+        const msg = error.response.data.err;
+        setError(msg);
+        setIsPending(false);
+        console.log(msg);
+      }
+      return [];
+    }
+  };
+
   useEffect(() => {
     setIsCancelled(false);
     return () => setIsCancelled(true);
   }, []);
 
-  return { save, error, isPending };
+  return { error, isPending, save, getArticlesByAuthor };
 };
 
 export default useArticle;

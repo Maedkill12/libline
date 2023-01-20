@@ -22,8 +22,11 @@ const useCreateAuthRefresh = () => {
               payload: response.data.accessToken,
             });
             dispatch({
-              type: "STORE_USERNAME",
-              payload: response.data.username,
+              type: "STORE_USER_INFO",
+              payload: {
+                username: response.data.username,
+                userId: response.data.userId,
+              },
             });
             error.response.config.headers[
               "Authorization"
@@ -32,11 +35,10 @@ const useCreateAuthRefresh = () => {
           })
           .catch((error2) => {
             dispatch({ type: "DELETE_TOKEN" });
-            dispatch({ type: "DELETE_USERNAME" });
+            dispatch({ type: "DELETE_USER_INFO" });
             // navigate("/login");
             return Promise.reject(error2);
-          })
-          .finally();
+          });
       }
     );
   }

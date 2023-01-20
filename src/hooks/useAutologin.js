@@ -23,7 +23,10 @@ const useAutologin = () => {
       }
       if (data.success) {
         dispatch({ type: "STORE_TOKEN", payload: data.accessToken });
-        dispatch({ type: "STORE_USERNAME", payload: data.username });
+        dispatch({
+          type: "STORE_USER_INFO",
+          payload: { username: data.username, userId: data.userId },
+        });
       }
     } catch (error) {
       console.log(error);
@@ -33,7 +36,7 @@ const useAutologin = () => {
         setIsPending(false);
         if (username) {
           dispatch({ type: "DELETE_TOKEN" });
-          dispatch({ type: "DELETE_USERNAME" });
+          dispatch({ type: "DELETE_USER_INFO" });
         }
         console.log(msg);
       }

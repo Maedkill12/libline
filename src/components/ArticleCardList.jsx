@@ -11,6 +11,7 @@ const ArticleCardList = ({ articles }) => {
             title={article.title}
             author={article.author}
             year={article.year}
+            username={article.username}
           />
         ))}
     </div>
