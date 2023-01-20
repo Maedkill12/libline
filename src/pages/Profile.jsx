@@ -9,6 +9,12 @@ import useAccessToken from "../hooks/useAccessToken";
 import IconButton from "../components/IconButton";
 import useModal from "../hooks/useModal";
 import AddArticleForm from "../components/AddArticleForm";
+import ArticleCardList from "../components/ArticleCardList";
+
+const articles = [
+  { _id: 1, title: "la flora de zacatecas", author: "maed", year: 2022 },
+  { _id: 2, title: "la fauna de zacatecas", author: "maed", year: 2022 },
+];
 
 const Profile = () => {
   const [photoURL, setPhotoURL] = useState(null);
@@ -89,7 +95,9 @@ const Profile = () => {
                   </div>
                 )}
               </div>
-              <div>Articles</div>
+              <div className="mt-4">
+                <ArticleCardList articles={articles} />
+              </div>
             </section>
           </div>
         </div>
