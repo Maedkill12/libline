@@ -1,17 +1,20 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import useRefreshToken from "./hooks/useRefreshToken";
+import useAutologin from "./hooks/useAutologin";
+import useCreateAuthRefresh from "./hooks/useCreateAuthRefresh";
 import Discover from "./pages/Discover";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
 function App() {
-  const { refresh } = useRefreshToken();
+  const { createAuthRefreshInterceptor } = useCreateAuthRefresh();
+  const { login } = useAutologin();
 
   useEffect(() => {
-    refresh();
+    createAuthRefreshInterceptor();
+    login();
   }, []);
 
   return (

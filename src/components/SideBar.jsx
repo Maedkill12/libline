@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 
 const SideBar = () => {
+  const navigate = useNavigate();
   return (
     <div className=" min-h-screen bg-slate-800">
       <div onClick={() => navigate("/")}>

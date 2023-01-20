@@ -2,14 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { URL_API } from "../constants";
 import useAccessToken from "../hooks/useAccessToken";
+import IconButton from "../components/IconButton";
+import useModal from "../hooks/useModal";
+import AddArticleForm from "../components/AddArticleForm";
 
 const Profile = () => {
   const [photoURL, setPhotoURL] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const { username } = useParams();
   const { username: userLogged } = useAccessToken();
+  const { Modal, closeModal, openModal } = useModal();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +41,20 @@ const Profile = () => {
 
   return (
     <div className="w-full">
+      <Modal>
+        <div className="w-[400px] bg-white rounded-lg shadow-lg shadow-black">
+          <button className="m-0" onClick={closeModal}>
+            <AiOutlineCloseCircle size={40} />
+          </button>
+          <div className="px-4 pb-4 ">
+            <h2 className="text-center text-2xl font-bold font-sans text-slate-800 mb-4">
+              Add Article
+            </h2>
+            <AddArticleForm />
+          </div>
+        </div>
+      </Modal>
+
       {!isPending && (
         <div>
           <div className="bg-gradient-to-b  from-slate-100 to-slate-300 w-full py-8 px-4 flex flex-row items-center gap-4">
@@ -57,9 +77,18 @@ const Profile = () => {
           </div>
           <div className="px-4 py-2">
             <section>
-              <h2 className="text-3xl text-slate-800 font-bold">
-                {username === userLogged ? "My Articles" : "Articles"}
-              </h2>
+              <div className="flex flex-row items-center justify-between">
+                <h2 className="text-3xl text-slate-800 font-bold">
+                  {username === userLogged ? "My Articles" : "Articles"}
+                </h2>
+                {username === userLogged && (
+                  <div onClick={openModal}>
+                    <IconButton
+                      icon={<IoMdAdd color="rgb(241 245 249)" size={24} />}
+                    ></IconButton>
+                  </div>
+                )}
+              </div>
               <div>Articles</div>
             </section>
           </div>

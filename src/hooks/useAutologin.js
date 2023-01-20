@@ -2,15 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { URL_API } from "../constants";
 import useAccessToken from "./useAccessToken";
-import useLogout from "./useLogout";
 
-const useRefreshToken = () => {
+const useAutologin = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
   const { dispatch, username } = useAccessToken();
 
-  const refresh = async () => {
+  const login = async () => {
     setIsPending(true);
     setError(null);
     try {
@@ -27,12 +26,12 @@ const useRefreshToken = () => {
         dispatch({ type: "STORE_USERNAME", payload: data.username });
       }
     } catch (error) {
+      console.log(error);
       if (!isCancelled) {
         const msg = error.response.data.err;
         setError(msg);
         setIsPending(false);
         if (username) {
-          console.log("Logging out");
           dispatch({ type: "DELETE_TOKEN" });
           dispatch({ type: "DELETE_USERNAME" });
         }
@@ -46,7 +45,7 @@ const useRefreshToken = () => {
     return () => setIsCancelled(true);
   }, []);
 
-  return { error, isPending, refresh };
+  return { error, isPending, login };
 };
 
-export default useRefreshToken;
+export default useAutologin;
