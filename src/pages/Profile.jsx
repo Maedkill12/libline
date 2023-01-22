@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { URL_API } from "../constants";
 import useAxiosFetch from "../hooks/useAxiosFetch";
 import Banner from "../components/profilePage/Banner";
@@ -8,14 +8,13 @@ import ArticlesSection from "../components/profilePage/ArticlesSection";
 const Profile = () => {
   const { username } = useParams();
   const { isLoading, request, data: profileInfo, error } = useAxiosFetch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     request(`${URL_API}/users/${username}`);
   }, [request, username]);
 
   if (error) {
-    navigate("/");
+    return <div>Profile not found</div>;
   }
 
   if (isLoading || !profileInfo) {
