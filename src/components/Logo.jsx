@@ -8,6 +8,7 @@ const Logo = () => {
         <img
           className="w-[80px] h-[70px] object-cover rounded-lg shadow-md shadow-slate-900"
           src={icon}
+          alt="Icon"
         />
       </div>
       <h1 className="text-lg font-serif font-bold text-slate-100 ">LIBLINE</h1>

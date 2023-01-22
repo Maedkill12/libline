@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { GrNotification } from "react-icons/gr";
 import { FaUserCircle } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
-import DropdownMenu from "./DropdownMenu";
-import useLogout from "../hooks/useLogout";
+import DropdownMenu from "../DropdownMenu";
+import useLogout from "../../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
-import useAccessToken from "../hooks/useAccessToken";
+import useAccessToken from "../../hooks/useAccessToken";
 
 const ProfileMenu = () => {
   const { logout, isPending } = useLogout();
@@ -54,8 +54,6 @@ const menu = [
 ];
 
 const LoggedInMenu = () => {
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
-
   return (
     <div>
       <nav className="list-none flex flex-row-reverse gap-4 items-center">

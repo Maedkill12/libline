@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import useLogin from "../hooks/useLogin";
-import IconButton from "./IconButton";
-import Input from "./Input";
+import useLogin from "../../hooks/useLogin";
+import IconButton from "../IconButton";
+import Input from "../Input";
 
 const LoginForm = () => {
   const [username, setUsernmae] = useState("");
@@ -27,7 +27,7 @@ const LoginForm = () => {
           }}
           textLabel={"Username"}
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
         <Input
           inputOptions={{
@@ -39,10 +39,10 @@ const LoginForm = () => {
           }}
           textLabel="Password"
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
         <IconButton
-          style={`justify-center w-full ${
+          extraStyle={`justify-center w-full ${
             isPending ? "cursor-not-allowed" : ""
           }`}
           type="submit"

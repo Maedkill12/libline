@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from "react";
-import useArticle from "../hooks/useArticle";
-import IconButton from "./IconButton";
-import Input from "./Input";
+import React, { useState } from "react";
+import { URL_API } from "../../constants";
+import useAccessToken from "../../hooks/useAccessToken";
+import useAxiosFetch from "../../hooks/useAxiosFetch";
+import IconButton from "../IconButton";
+import Input from "../Input";
 
 const AddArticleForm = () => {
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
-  const { error, isPending, save } = useArticle();
+  const { error, isLoading, request } = useAxiosFetch();
+  const { accessToken, username } = useAccessToken();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (!isPending) {
-      await save(title, year);
-      setTitle("");
-      setYear("");
-    }
+
+    await request(
+      `${URL_API}/articles`,
+      {
+        data: { title, year, author: username },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+      "post"
+    );
+    setTitle("");
+    setYear("");
   };
 
   return (
@@ -29,7 +38,7 @@ const AddArticleForm = () => {
           }}
           textLabel={"Title"}
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
         <Input
           inputOptions={{
@@ -42,12 +51,12 @@ const AddArticleForm = () => {
           }}
           textLabel="Year"
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
 
         <IconButton
-          style={`justify-center w-full ${
-            isPending ? "cursor-not-allowed" : ""
+          extraStyle={`justify-center w-full ${
+            isLoading ? "cursor-not-allowed" : ""
           }`}
           type="submit"
         >

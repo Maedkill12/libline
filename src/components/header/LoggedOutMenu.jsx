@@ -1,7 +1,7 @@
 import React from "react";
 import { IoMdCreate } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-import IconButton from "./IconButton";
+import IconButton from "../IconButton";
 import { useNavigate } from "react-router-dom";
 
 const menu = [

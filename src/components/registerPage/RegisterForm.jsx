@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import IconButton from "./IconButton";
-import Input from "./Input";
-import useSignup from "../hooks/useSignup";
+import IconButton from "../IconButton";
+import Input from "../Input";
+import useSignup from "../../hooks/useSignup";
 
 const RegisterForm = () => {
   const [username, setUsernmae] = useState("");
@@ -30,7 +30,7 @@ const RegisterForm = () => {
           }}
           textLabel={"Username"}
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
         <Input
           inputOptions={{
@@ -42,7 +42,7 @@ const RegisterForm = () => {
           }}
           textLabel="Email"
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
         <Input
           inputOptions={{
@@ -54,7 +54,7 @@ const RegisterForm = () => {
           }}
           textLabel="Password"
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
         <Input
           inputOptions={{
@@ -66,7 +66,7 @@ const RegisterForm = () => {
           }}
           textLabel="Confirm Password"
           required={true}
-          style="mb-4"
+          extraStyle="mb-4"
         />
         <Input
           inputOptions={{
@@ -77,10 +77,10 @@ const RegisterForm = () => {
             value: photoURL,
           }}
           textLabel="Profile Photo URL"
-          style={"mb-4"}
+          extraStyle={"mb-4"}
         />
         <IconButton
-          style={`justify-center w-full ${
+          extraStyle={`justify-center w-full ${
             isPending ? "cursor-not-allowed" : ""
           }`}
           type="submit"
