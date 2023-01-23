@@ -82,11 +82,7 @@ const Articles = () => {
                 </Link>
               </div>
               <div>
-                <a
-                  href="https://www.google.com"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href={article.docURL} target="_blank" rel="noreferrer">
                   <IconButton
                     extraStyle={"bg-red-600"}
                     icon={<AiFillFilePdf />}

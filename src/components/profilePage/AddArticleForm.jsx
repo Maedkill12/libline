@@ -7,12 +7,22 @@ import Input from "../Input";
 const AddArticleForm = () => {
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
+  const [docURL, setDocURL] = useState("");
+  const [frontPageURL, setFrontPageURL] = useState("");
+  const [bannerURL, setBannerURL] = useState("");
   const { error, isLoading, createArticle } = useArticle();
   const { accessToken, username } = useAccessToken();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const data = { title, year, author: username };
+    const data = {
+      title,
+      year,
+      author: username,
+      frontPageURL,
+      bannerURL,
+      docURL,
+    };
     await createArticle(data, accessToken);
     setTitle("");
     setYear("");
@@ -45,7 +55,40 @@ const AddArticleForm = () => {
           required={true}
           extraStyle="mb-4"
         />
-
+        <Input
+          inputOptions={{
+            id: "doc-url",
+            placeholder: "(https://www.mywebsite.com/mypdf.pdf)",
+            type: "url",
+            onChange: (e) => setDocURL(e.target.value),
+            value: docURL,
+          }}
+          textLabel="PDF URL"
+          required={true}
+          extraStyle="mb-4"
+        />
+        <Input
+          inputOptions={{
+            id: "front-page-url",
+            placeholder: "(https://www.mywebsite.com/frontpage.png)",
+            type: "url",
+            onChange: (e) => setFrontPageURL(e.target.value),
+            value: frontPageURL,
+          }}
+          textLabel="Front Page Image URL"
+          extraStyle="mb-4"
+        />
+        <Input
+          inputOptions={{
+            id: "banner-url",
+            placeholder: "(https://www.mywebsite.com/banner.png)",
+            type: "url",
+            onChange: (e) => setBannerURL(e.target.value),
+            value: bannerURL,
+          }}
+          textLabel="Banner Image URL"
+          extraStyle="mb-4"
+        />
         <IconButton
           extraStyle={`justify-center w-full ${
             isLoading ? "cursor-not-allowed" : ""
