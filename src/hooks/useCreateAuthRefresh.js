@@ -1,10 +1,11 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { URL_API } from "../constants";
 import useAccessToken from "./useAccessToken";
 
 const useCreateAuthRefresh = () => {
   const { dispatch } = useAccessToken();
-  function createAuthRefreshInterceptor() {
+  useEffect(() => {
     const interceptor = axios.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -36,13 +37,12 @@ const useCreateAuthRefresh = () => {
           .catch((error2) => {
             dispatch({ type: "DELETE_TOKEN" });
             dispatch({ type: "DELETE_USER_INFO" });
-            // navigate("/login");
             return Promise.reject(error2);
           });
       }
     );
-  }
-  return { createAuthRefreshInterceptor };
+    return () => axios.interceptors.response.eject(interceptor);
+  }, [dispatch]);
 };
 
 export default useCreateAuthRefresh;

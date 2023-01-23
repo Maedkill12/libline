@@ -1,32 +1,37 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { URL_API } from "../constants";
-import useAxiosFetch from "../hooks/useAxiosFetch";
 import Banner from "../components/profilePage/Banner";
 import ArticlesSection from "../components/profilePage/ArticlesSection";
+import useUser from "../hooks/useUser";
+import { useState } from "react";
 
 const Profile = () => {
   const { username } = useParams();
-  const { isLoading, request, data: profileInfo, error } = useAxiosFetch();
+  const [profile, setProfile] = useState(null);
+  const { isLoading, error, getUserByUsername } = useUser();
 
   useEffect(() => {
-    request(`${URL_API}/users/${username}`);
-  }, [request, username]);
+    const getProfile = async () => {
+      const data = await getUserByUsername(username);
+      setProfile(data);
+    };
+    getProfile();
+  }, [getUserByUsername, username]);
 
   if (error) {
     return <div>Profile not found</div>;
   }
 
-  if (isLoading || !profileInfo) {
+  if (isLoading || !profile) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="w-full">
       <div>
-        <Banner profile={profileInfo.data} />
+        <Banner profile={profile} />
         <div className="px-4 py-2">
-          <ArticlesSection profile={profileInfo.data} />
+          <ArticlesSection profile={profile} />
         </div>
       </div>
     </div>

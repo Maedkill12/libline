@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import IconButton from "../IconButton";
 import Input from "../Input";
-import useAxiosFetch from "../../hooks/useAxiosFetch";
-import { URL_API } from "../../constants";
 import useAccessToken from "../../hooks/useAccessToken";
 import { useNavigate } from "react-router-dom";
 import useAutologin from "../../hooks/useAutologin";
+import useUser from "../../hooks/useUser";
 
 const EditProfileForm = ({ closeModal }) => {
   const [username, setUsername] = useState("");
   const [photoURL, setPhotoURL] = useState("");
-  const { request, error, isLoading } = useAxiosFetch();
+  const { error, isLoading, updateUserByUsername } = useUser();
   const { username: userLogged, accessToken } = useAccessToken();
   const { login } = useAutologin();
   const navigate = useNavigate();
@@ -24,18 +23,11 @@ const EditProfileForm = ({ closeModal }) => {
     if (photoURL) {
       data.photoURL = photoURL;
     }
-    await request(
-      `${URL_API}/users/${userLogged}`,
-      {
-        data,
-        withCredentials: true,
-        headers: { Authorization: `Bearer ${accessToken}` },
-      },
-      "patch"
-    );
-    if (!error) {
+    const user = await updateUserByUsername(userLogged, data, accessToken);
+
+    if (user) {
       await login();
-      navigate(`/profile/${data.username}`);
+      navigate(`/profile/${user.username}`);
     }
   };
 

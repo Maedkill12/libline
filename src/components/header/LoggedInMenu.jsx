@@ -5,18 +5,21 @@ import { GrNotification } from "react-icons/gr";
 import { FaUserCircle } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import DropdownMenu from "../DropdownMenu";
-import useLogout from "../../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import useAccessToken from "../../hooks/useAccessToken";
+import useAuth from "../../hooks/useAuth";
 
 const ProfileMenu = () => {
-  const { logout, isPending } = useLogout();
+  const { logout, isPending } = useAuth();
   const { username } = useAccessToken();
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
     if (!isPending) {
-      logout();
+      const data = await logout();
+      if (data) {
+        navigate("/");
+      }
     }
   };
   return (

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { URL_API } from "../constants";
 import useAccessToken from "./useAccessToken";
 
@@ -9,9 +9,10 @@ const useAutologin = () => {
   const [isCancelled, setIsCancelled] = useState(false);
   const { dispatch, username } = useAccessToken();
 
-  const login = async () => {
+  const login = useCallback(async () => {
     setIsPending(true);
     setError(null);
+    console.log("auto login");
     try {
       const response = await axios.get(`${URL_API}/auth/refresh`, {
         withCredentials: true,
@@ -41,7 +42,7 @@ const useAutologin = () => {
         console.log(msg);
       }
     }
-  };
+  }, [dispatch, isCancelled, username]);
 
   useEffect(() => {
     setIsCancelled(false);

@@ -8,7 +8,7 @@ const Header = () => {
 
   return (
     <header className="flex flex-row justify-end p-4 items-center bg-slate-100 fixed min-w-[calc(100vw-240px)]">
-      <div>
+      <div className="mr-4">
         {!accessToken && <LoggedOutMenu />}
         {accessToken && <LoggedInMenu />}
       </div>

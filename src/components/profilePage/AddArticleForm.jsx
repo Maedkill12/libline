@@ -1,27 +1,19 @@
 import React, { useState } from "react";
-import { URL_API } from "../../constants";
 import useAccessToken from "../../hooks/useAccessToken";
-import useAxiosFetch from "../../hooks/useAxiosFetch";
+import useArticle from "../../hooks/useArticle";
 import IconButton from "../IconButton";
 import Input from "../Input";
 
 const AddArticleForm = () => {
   const [title, setTitle] = useState("");
   const [year, setYear] = useState("");
-  const { error, isLoading, request } = useAxiosFetch();
+  const { error, isLoading, createArticle } = useArticle();
   const { accessToken, username } = useAccessToken();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    await request(
-      `${URL_API}/articles`,
-      {
-        data: { title, year, author: username },
-        headers: { Authorization: `Bearer ${accessToken}` },
-      },
-      "post"
-    );
+    const data = { title, year, author: username };
+    await createArticle(data, accessToken);
     setTitle("");
     setYear("");
   };

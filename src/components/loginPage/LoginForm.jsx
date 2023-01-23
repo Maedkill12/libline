@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import useLogin from "../../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import IconButton from "../IconButton";
 import Input from "../Input";
 
 const LoginForm = () => {
   const [username, setUsernmae] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error, isPending } = useLogin();
+  const { error, isLoading, login } = useAuth();
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    if (!isPending) {
-      await login(username, password);
+    if (!isLoading) {
+      const data = await login(username, password);
+      if (data) {
+        navigate("/");
+      }
     }
   };
   return (
@@ -43,7 +48,7 @@ const LoginForm = () => {
         />
         <IconButton
           extraStyle={`justify-center w-full ${
-            isPending ? "cursor-not-allowed" : ""
+            isLoading ? "cursor-not-allowed" : ""
           }`}
           type="submit"
         >

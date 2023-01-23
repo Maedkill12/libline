@@ -11,7 +11,7 @@ const useAxiosFetch = () => {
     async (url, options = {}, method = "get") => {
       setIsLoading(true);
       setIsCancelled(false);
-      console.log("testing");
+      console.log("testing axios fetch");
       try {
         const response = await axios({
           method,

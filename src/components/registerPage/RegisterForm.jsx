@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import IconButton from "../IconButton";
 import Input from "../Input";
-import useSignup from "../../hooks/useSignup";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const RegisterForm = () => {
   const [username, setUsernmae] = useState("");
@@ -9,12 +10,22 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [photoURL, setPhotoURL] = useState("");
-  const { signup, error, isPending } = useSignup();
+  const { error, isLoading, signup } = useAuth();
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (!isPending) {
-      await signup(username, email, password, confirmPass, photoURL);
+    if (!isLoading) {
+      const data = await signup(
+        username,
+        email,
+        password,
+        confirmPass,
+        photoURL
+      );
+      if (data) {
+        navigate("/login");
+      }
     }
   };
 
@@ -81,7 +92,7 @@ const RegisterForm = () => {
         />
         <IconButton
           extraStyle={`justify-center w-full ${
-            isPending ? "cursor-not-allowed" : ""
+            isLoading ? "cursor-not-allowed" : ""
           }`}
           type="submit"
         >

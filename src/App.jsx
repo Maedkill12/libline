@@ -9,11 +9,11 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 
 function App() {
-  // const { login } = useAutologin();
+  const { login } = useAutologin();
 
   useEffect(() => {
-    // login();
-  }, []);
+    login();
+  }, [login]);
 
   return (
     <BrowserRouter>

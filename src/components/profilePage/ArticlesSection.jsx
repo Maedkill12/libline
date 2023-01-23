@@ -1,22 +1,27 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
-import { URL_API } from "../../constants";
 import useAccessToken from "../../hooks/useAccessToken";
-import useAxiosFetch from "../../hooks/useAxiosFetch";
+import useArticle from "../../hooks/useArticle";
 import useModal from "../../hooks/useModal";
 import ArticleCardList from "../ArticleCardList";
 import IconButton from "../IconButton";
 import AddArticleForm from "./AddArticleForm";
 
 const ArticlesSection = ({ profile: { username } }) => {
+  const [articles, setArticles] = useState([]);
   const { username: userLogged } = useAccessToken();
   const { Modal, closeModal, openModal } = useModal();
-  const { data, request } = useAxiosFetch();
+  const { getArticlesByUsername } = useArticle();
 
   useEffect(() => {
-    request(`${URL_API}/articles?username=${username}`);
-  }, [request, username]);
+    const getArticles = async () => {
+      const data = await getArticlesByUsername(username);
+      setArticles(data);
+    };
+    getArticles();
+  }, [getArticlesByUsername, username]);
 
   return (
     <>
@@ -47,7 +52,7 @@ const ArticlesSection = ({ profile: { username } }) => {
           )}
         </div>
         <div className="mt-4">
-          <ArticleCardList articles={data?.data} />
+          <ArticleCardList articles={articles} />
         </div>
       </section>
     </>
