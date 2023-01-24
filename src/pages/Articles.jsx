@@ -1,12 +1,17 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import defaultIcon from "../assets/default.png";
 import defaultBanner from "../assets/icon.png";
 import IconButton from "../components/IconButton";
-import { AiFillFilePdf } from "react-icons/ai";
+import { AiFillFilePdf, AiOutlineCloseCircle } from "react-icons/ai";
+import { MdModeEdit } from "react-icons/md";
+import { BsFillTrashFill } from "react-icons/bs";
 import ArticleCardList from "../components/ArticleCardList";
+import EditArticleForm from "../components/articlePage/EditArticleForm";
 import useArticle from "../hooks/useArticle";
+import useAccessToken from "../hooks/useAccessToken";
+import useModal from "../hooks/useModal";
 
 const Articles = () => {
   const { id } = useParams();
@@ -15,6 +20,26 @@ const Articles = () => {
   const [article, setArticle] = useState(null);
   const [recommendedList, setRecommendedList] = useState(null);
   const [username, setUsername] = useState(null);
+  const { username: userLogged, accessToken } = useAccessToken();
+  const {
+    Modal: DeleteModal,
+    closeModal: closeDeleteModal,
+    openModal: openDeleteModal,
+  } = useModal();
+  const {
+    Modal: EditModal,
+    closeModal: closeEditModal,
+    openModal: openEditModal,
+  } = useModal();
+  const { deleteArticle } = useArticle();
+  const navigate = useNavigate();
+
+  const deleteArticleHandle = async () => {
+    const articleDeleted = await deleteArticle(id, accessToken);
+    if (articleDeleted) {
+      navigate(`/profile/${username}`);
+    }
+  };
 
   useEffect(() => {
     const getArticle = async () => {
@@ -48,68 +73,115 @@ const Articles = () => {
   }
 
   return (
-    <div className="w-full  py-4 px-8 flex flex-col gap-2">
-      <section className="flex flex-row flex-nowrap gap-4 h-[500px]">
-        <div className="w-[400px]">
-          <img
-            src={article.frontPageURL ? article.frontPageURL : defaultIcon}
-            alt="Front page"
-            className="w-full h-full object-cover rounded-lg"
-          />
-        </div>
-        <div className="w-full flex flex-col gap-4 h-full">
-          <div className="h-[200px] w-full">
-            <img
-              src={article.bannerURL ? article.bannerURL : defaultBanner}
-              alt="Banner"
-              className="h-full w-full object-cover rounded-lg"
-            />
-          </div>
-          <div className="flex-grow flex flex-col">
-            <h2 className="text-3xl text-slate-800 font-bold font-serif">
-              {article.title}{" "}
-              <span className="text-lg italic font-normal">
-                ({article.year})
-              </span>
+    <>
+      <DeleteModal>
+        <div className="w-[400px] bg-white rounded-lg shadow-lg shadow-black">
+          <button className="m-0" onClick={closeDeleteModal}>
+            <AiOutlineCloseCircle size={40} />
+          </button>
+          <div className="px-4 pb-4 ">
+            <h2 className="text-center text-2xl font-bold font-sans text-slate-800 mb-4">
+              Delete article?
             </h2>
-            <p className="px-4 w-[80%] text-justify">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iste at
-              quaerat molestiae. Cum sit quaerat molestias obcaecati voluptates
-              animi sapiente perferendis natus! Harum, sed reiciendis modi
-              minima incidunt illo repudiandae! Lorem, ipsum dolor sit amet
-              consectetur adipisicing elit. Sed doloremque impedit dolore eaque,
-              quidem, architecto quisquam cum ullam, voluptatibus beatae
-              laudantium mollitia nulla pariatur temporibus sapiente commodi!
-              Velit, ipsam provident.
-            </p>
-            <div className="flex-grow flex flex-row justify-between items-end">
-              <div className="font-bold text-2xl">
-                By{" "}
-                <Link to={`/profile/${article.author.username}`}>
-                  <span className="font-normal underline cursor-pointer text-slate-800 hover:text-slate-500">
-                    {article.author.username}
-                  </span>
-                </Link>
-              </div>
-              <div>
-                <a href={article.docURL} target="_blank" rel="noreferrer">
-                  <IconButton
-                    extraStyle={"bg-red-600"}
-                    icon={<AiFillFilePdf />}
-                  >
-                    Read Now
-                  </IconButton>
-                </a>
-              </div>
+            <div className="flex flex-row justify-center items-center gap-4 list-none">
+              <li onClick={deleteArticleHandle}>
+                <IconButton extraStyle={"bg-red-800"}>Yes</IconButton>
+              </li>
+              <li onClick={closeDeleteModal}>
+                <IconButton extraStyle={"bg-green-800"}>No</IconButton>
+              </li>
             </div>
           </div>
         </div>
-      </section>
-      <section>
-        <h2 className="text-3xl text-slate-800 font-bold mb-2">Recommended</h2>
-        <ArticleCardList articles={recommendedList} />
-      </section>
-    </div>
+      </DeleteModal>
+      <EditModal>
+        <div className="w-[400px] bg-white rounded-lg shadow-lg shadow-black">
+          <button className="m-0" onClick={closeEditModal}>
+            <AiOutlineCloseCircle size={40} />
+          </button>
+          <div className="px-4 pb-4 ">
+            <h2 className="text-center text-2xl font-bold font-sans text-slate-800 mb-4">
+              Delete article?
+            </h2>
+            <EditArticleForm id={id} closeModal={closeEditModal} />
+          </div>
+        </div>
+      </EditModal>
+      <div className="w-full  py-4 px-8 flex flex-col gap-2">
+        <section className="flex flex-row flex-nowrap gap-4 h-[500px]">
+          <div className="w-[400px]">
+            <img
+              src={article.frontPageURL ? article.frontPageURL : defaultIcon}
+              alt="Front page"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
+          <div className="w-full flex flex-col gap-4 h-full">
+            <div className="h-[200px] w-full">
+              <img
+                src={article.bannerURL ? article.bannerURL : defaultBanner}
+                alt="Banner"
+                className="h-full w-full object-cover rounded-lg"
+              />
+            </div>
+            <div className="flex-grow flex flex-col">
+              <h2 className="text-3xl text-slate-800 font-bold font-serif">
+                {article.title}{" "}
+                <span className="text-lg italic font-normal">
+                  ({article.year})
+                </span>
+              </h2>
+              <p className="px-4 w-[80%] text-justify">{article.description}</p>
+              <div className="flex-grow flex flex-row justify-between items-end">
+                <div className="font-bold text-2xl">
+                  By{" "}
+                  <Link to={`/profile/${article.author.username}`}>
+                    <span className="font-normal underline cursor-pointer text-slate-800 hover:text-slate-500">
+                      {article.author.username}
+                    </span>
+                  </Link>
+                </div>
+                <div className="flex flex-row gap-4 list-none">
+                  {userLogged === article.author.username && (
+                    <li onClick={openDeleteModal}>
+                      <IconButton
+                        icon={<BsFillTrashFill />}
+                        extraStyle={"bg-red-800"}
+                        iconPosition="right"
+                      >
+                        Delete
+                      </IconButton>
+                    </li>
+                  )}
+                  {userLogged === article.author.username && (
+                    <li onClick={openEditModal}>
+                      <IconButton icon={<MdModeEdit />} iconPosition="right">
+                        Edit
+                      </IconButton>
+                    </li>
+                  )}
+                  <a href={article.docURL} target="_blank" rel="noreferrer">
+                    <IconButton
+                      extraStyle={"bg-red-600"}
+                      icon={<AiFillFilePdf />}
+                      iconPosition="right"
+                    >
+                      Read Now
+                    </IconButton>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2 className="text-3xl text-slate-800 font-bold mb-2">
+            Recommended
+          </h2>
+          <ArticleCardList articles={recommendedList} />
+        </section>
+      </div>
+    </>
   );
 };
 

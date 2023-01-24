@@ -35,6 +35,60 @@ const useArticle = () => {
     [isCancelled]
   );
 
+  const deleteArticle = useCallback(
+    async (id, accessToken) => {
+      console.log("Deleting article");
+      setError(null);
+      setIsLoading(true);
+      try {
+        const response = await axios.delete(`${URL_API}/articles/${id}`, {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (!isCancelled) {
+          setIsLoading(false);
+          setError(null);
+          return response.data.data;
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          const msg = error.response?.data?.err;
+          setError(msg);
+          setIsLoading(false);
+        }
+      }
+    },
+    [isCancelled]
+  );
+
+  const updateArticle = useCallback(
+    async (id, data, accessToken) => {
+      console.log("Updating article article", id, data);
+      setError(null);
+      setIsLoading(true);
+      try {
+        const response = await axios.patch(`${URL_API}/articles/${id}`, data, {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (!isCancelled) {
+          setIsLoading(false);
+          setError(null);
+          return response.data.data;
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          const msg = error.response?.data?.err;
+          setError(msg);
+          setIsLoading(false);
+        }
+      }
+    },
+    [isCancelled]
+  );
+
   const getArticlesByUsername = useCallback(
     async (username, queryParams = "") => {
       console.log("Getting articles by username");
@@ -100,6 +154,8 @@ const useArticle = () => {
     getArticleById,
     getArticlesByUsername,
     createArticle,
+    deleteArticle,
+    updateArticle,
   };
 };
 
