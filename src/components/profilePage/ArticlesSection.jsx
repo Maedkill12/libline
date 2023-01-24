@@ -7,13 +7,25 @@ import useArticle from "../../hooks/useArticle";
 import useModal from "../../hooks/useModal";
 import ArticleCardList from "../ArticleCardList";
 import IconButton from "../IconButton";
+import Input from "../Input";
 import AddArticleForm from "./AddArticleForm";
 
 const ArticlesSection = ({ profile: { username } }) => {
   const [articles, setArticles] = useState([]);
+  const [searchedArticles, setSearchedArticles] = useState(null);
+  const [search, setSearch] = useState("");
   const { username: userLogged } = useAccessToken();
   const { Modal, closeModal, openModal } = useModal();
   const { getArticlesByUsername } = useArticle();
+
+  const searchHandle = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    const filter = articles.filter((article) =>
+      article.title.includes(value.trim())
+    );
+    setSearchedArticles(filter);
+  };
 
   useEffect(() => {
     const getArticles = async () => {
@@ -40,9 +52,19 @@ const ArticlesSection = ({ profile: { username } }) => {
       </Modal>
       <section>
         <div className="flex flex-row items-center justify-between">
-          <h2 className="text-3xl text-slate-800 font-bold">
-            {username === userLogged ? "My Articles" : "Articles"}
-          </h2>
+          <div className="flex flex-row gap-4 ">
+            <h2 className="text-3xl text-slate-800 font-bold">
+              {username === userLogged ? "My Articles" : "Articles"}
+            </h2>
+            <Input
+              inputOptions={{
+                placeholder: "Search",
+                value: search,
+                onChange: searchHandle,
+              }}
+              extraStyle={"w-auto"}
+            />
+          </div>
           {username === userLogged && (
             <div onClick={openModal}>
               <IconButton
@@ -52,7 +74,13 @@ const ArticlesSection = ({ profile: { username } }) => {
           )}
         </div>
         <div className="mt-4">
-          <ArticleCardList articles={articles} />
+          <ArticleCardList
+            articles={
+              searchedArticles?.length > 0 || search !== ""
+                ? searchedArticles
+                : articles
+            }
+          />
         </div>
       </section>
     </>

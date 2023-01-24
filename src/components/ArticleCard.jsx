@@ -6,7 +6,7 @@ const ArticleCard = ({ title, year, username, frontPageURL = null, id }) => {
   return (
     <Link to={`/articles/${id}`}>
       <div className="w-[175px] h-[300px] bg-slate-800 flex flex-col rounded-lg shadow-lg shadow-slate-800 overflow-hidden cursor-pointer">
-        <div className="min-h-[225px]">
+        <div className="h-[225px]">
           <img
             src={frontPageURL ? frontPageURL : defaultIcon}
             className="h-full object-cover"
