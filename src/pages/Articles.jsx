@@ -10,11 +10,11 @@ import useArticle from "../hooks/useArticle";
 
 const Articles = () => {
   const { id } = useParams();
-  // const { data: articleInfo, error, isLoading, request } = useAxiosFetch();
   const { error, isLoading, getArticleById, getArticlesByUsername } =
     useArticle();
   const [article, setArticle] = useState(null);
-  const [recommendedList, setRecommendedList] = useState([]);
+  const [recommendedList, setRecommendedList] = useState(null);
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     const getArticle = async () => {
@@ -22,18 +22,28 @@ const Articles = () => {
       setArticle(data);
       if (data) {
         const username = data.author.username;
-        const recommended = await getArticlesByUsername(username, "limit=8");
-        setRecommendedList(recommended);
+        setUsername(username);
       }
     };
     getArticle();
-  }, [id, getArticleById, getArticlesByUsername]);
+  }, [id, getArticleById]);
+
+  useEffect(() => {
+    const getRecommended = async () => {
+      if (!username) {
+        return;
+      }
+      const recommended = await getArticlesByUsername(username, "limit=6");
+      setRecommendedList(recommended);
+    };
+    getRecommended();
+  }, [getArticlesByUsername, username]);
 
   if (error) {
     return <div>Article not found</div>;
   }
 
-  if (isLoading || !article) {
+  if (isLoading || !article || !recommendedList) {
     return <div>Loading...</div>;
   }
 

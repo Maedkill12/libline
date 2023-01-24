@@ -21,7 +21,7 @@ const Input = ({
         </label>
       )}
       <input
-        className={`outline-none border-2 border-solid border-slate-800 w-full  p-1 rounded-lg before:c ${extraStyle}`}
+        className={`outline-none border-2 border-solid border-slate-800 w-full  p-1 rounded-lg  ${extraStyle}`}
         required={required}
         {...inputOptions}
       />

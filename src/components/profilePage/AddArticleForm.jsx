@@ -10,6 +10,7 @@ const AddArticleForm = () => {
   const [docURL, setDocURL] = useState("");
   const [frontPageURL, setFrontPageURL] = useState("");
   const [bannerURL, setBannerURL] = useState("");
+  const [description, setDescription] = useState("");
   const { error, isLoading, createArticle } = useArticle();
   const { accessToken, username } = useAccessToken();
 
@@ -22,10 +23,17 @@ const AddArticleForm = () => {
       frontPageURL,
       bannerURL,
       docURL,
+      description,
     };
-    await createArticle(data, accessToken);
-    setTitle("");
-    setYear("");
+    const article = await createArticle(data, accessToken);
+    if (article) {
+      setTitle("");
+      setYear("");
+      setDocURL("");
+      setFrontPageURL("");
+      setBannerURL("");
+      setDescription("");
+    }
   };
 
   return (
@@ -89,6 +97,12 @@ const AddArticleForm = () => {
           textLabel="Banner Image URL"
           extraStyle="mb-4"
         />
+        <textarea
+          placeholder="Description"
+          className="outline-none border-2 border-solid border-slate-800 w-full p-1 rounded-lg"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
         <IconButton
           extraStyle={`justify-center w-full ${
             isLoading ? "cursor-not-allowed" : ""
