@@ -25,8 +25,8 @@ const Banner = ({ profile: { username, photoURL } }) => {
           </div>
         </div>
       </Modal>
-      <div className="bg-gradient-to-b  from-slate-100 to-slate-300 w-full py-8 px-4 flex flex-row items-center gap-4">
-        <div className="w-48 h-48 bg-slate-800 rounded-full flex items-center justify-center overflow-hidden">
+      <div className="bg-gradient-to-b  from-slate-100 dark:from-slate-800/80 to-slate-300 dark:to-slate-800 w-full py-8 px-4 flex flex-row items-center gap-4">
+        <div className="w-48 h-48 bg-slate-800 dark:bg-slate-700 rounded-full flex items-center justify-center overflow-hidden">
           {photoURL ? (
             <img
               src={photoURL}
@@ -38,7 +38,7 @@ const Banner = ({ profile: { username, photoURL } }) => {
           )}
         </div>
         <div>
-          <h2 className="text-3xl font-bold text-slate-800 font-serif">
+          <h2 className="text-3xl font-bold text-slate-800 dark:text-white font-serif">
             {username}
           </h2>
           {username === userLogged && (

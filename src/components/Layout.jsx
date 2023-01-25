@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
       </div>
       <div className="flex-1 flex flex-col">
         <Header />
-        <div className="bg-slate-50 flex-grow flex mt-16 min-h-[calc(100vh-4rem)]">
+        <div className="bg-slate-50 dark:bg-slate-900 flex-grow flex mt-16 min-h-[calc(100vh-4rem)]">
           {children}
         </div>
       </div>

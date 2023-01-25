@@ -5,7 +5,7 @@ import defaultIcon from "../assets/default.png";
 const ArticleCard = ({ title, year, username, frontPageURL = null, id }) => {
   return (
     <Link to={`/articles/${id}`}>
-      <div className="w-full sm:w-[175px] h-[300px] bg-slate-800 flex flex-row sm:flex-col rounded-lg shadow-lg shadow-slate-800 overflow-hidden cursor-pointer">
+      <div className="w-full sm:w-[175px] h-[300px] bg-slate-800 flex flex-row sm:flex-col rounded-lg shadow-lg shadow-slate-800 dark:shadow-black overflow-hidden cursor-pointer">
         <div className="h-full sm:h-[225px] w-1/2 sm:w-full">
           <img
             src={frontPageURL ? frontPageURL : defaultIcon}

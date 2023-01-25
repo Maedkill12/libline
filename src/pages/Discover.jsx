@@ -50,17 +50,21 @@ const Discover = () => {
   return (
     <div className="px-4">
       <section className="mb-4">
-        <h2 className="text-slate-800 font-bold text-3xl">Last Articles...</h2>
+        <h2 className="text-slate-800 dark:text-white font-bold text-3xl">
+          Last Articles...
+        </h2>
         <ArticleCardList articles={articles} />
         <button
-          className="cursor-pointer my-4  text-slate-800 text-lg italic border-2 border-solid border-slate-800 py-1 px-4 rounded-3xl hover:text-white hover:bg-slate-800"
+          className="cursor-pointer my-4  text-slate-800 dark:text-white dark:bg-slate-700 text-lg italic border-2 border-solid border-slate-800 py-1 px-4 rounded-3xl hover:text-white hover:bg-slate-800"
           onClick={loadMoreArticlesHandle}
         >
           Show more
         </button>
       </section>
       <section className="mb-4">
-        <h2 className="text-slate-800 font-bold text-3xl">Profiles</h2>
+        <h2 className="text-slate-800 dark:text-white font-bold text-3xl">
+          Profiles
+        </h2>
         <div className="flex  flex-row gap-4 flex-wrap">
           {users &&
             users.map((user) => (
@@ -76,9 +80,11 @@ const Discover = () => {
                       alt="Profile"
                     />
                   ) : (
-                    <FaUserCircle size={180} color="rgb(30, 41, 59)" />
+                    <div className="text-slate-800 dark:text-slate-200">
+                      <FaUserCircle size={180} />
+                    </div>
                   )}
-                  <p className="text-center text-xl text-slate-800 font-bold">
+                  <p className="text-center text-xl text-slate-800 dark:text-white font-bold">
                     {user.username}
                   </p>
                 </Link>
@@ -86,7 +92,7 @@ const Discover = () => {
             ))}
         </div>
         <button
-          className="cursor-pointer my-4  text-slate-800 text-lg italic border-2 border-solid border-slate-800 py-1 px-4 rounded-3xl hover:text-white hover:bg-slate-800"
+          className="cursor-pointer my-4  text-slate-800 text-lg italic dark:text-white dark:bg-slate-700 border-2 border-solid border-slate-800 py-1 px-4 rounded-3xl hover:text-white hover:bg-slate-800"
           onClick={loadMoreUsersHandle}
         >
           Show more

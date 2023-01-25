@@ -125,20 +125,20 @@ const Articles = () => {
               />
             </div>
             <div className="flex-grow flex flex-col">
-              <h2 className="text-3xl text-slate-800 font-bold font-serif">
+              <h2 className="text-3xl text-slate-800 dark:text-white font-bold font-serif">
                 {article.title}{" "}
                 <span className="text-lg italic font-normal">
                   ({article.year})
                 </span>
               </h2>
-              <p className="px-4 w-[80%] text-justify italic my-4">
+              <p className="px-4 w-[80%] text-justify italic my-4 dark:text-white">
                 {article.description}
               </p>
               <div className="flex-grow flex flex-col gap-4 sm:gap-0 sm:flex-row justify-between items-end">
-                <div className="font-bold text-2xl">
+                <div className="font-bold text-2xl dark:text-white">
                   By{" "}
                   <Link to={`/profile/${article.author.username}`}>
-                    <span className="font-normal underline cursor-pointer text-slate-800 hover:text-slate-500">
+                    <span className="font-normal underline cursor-pointer text-slate-800 hover:text-slate-500 dark:text-slate-400">
                       {article.author.username}
                     </span>
                   </Link>
@@ -148,7 +148,9 @@ const Articles = () => {
                     <li onClick={openDeleteModal}>
                       <IconButton
                         icon={<BsFillTrashFill />}
-                        extraStyle={"bg-red-800 w-full sm:w-auto"}
+                        extraStyle={
+                          "bg-red-800 w-full sm:w-auto dark:bg-red-800 "
+                        }
                         iconPosition="left"
                       >
                         Delete
@@ -160,7 +162,7 @@ const Articles = () => {
                       <IconButton
                         icon={<MdModeEdit />}
                         iconPosition="left"
-                        extraStyle={"w-full sm:w-auto"}
+                        extraStyle={"w-full sm:w-auto dark:bg-slate-800"}
                       >
                         Edit
                       </IconButton>
@@ -168,7 +170,7 @@ const Articles = () => {
                   )}
                   <a href={article.docURL} target="_blank" rel="noreferrer">
                     <IconButton
-                      extraStyle={"bg-red-600 w-full sm:w-auto"}
+                      extraStyle={"bg-red-600 w-full sm:w-auto dark:bg-red-600"}
                       icon={<AiFillFilePdf />}
                       iconPosition="left"
                     >
@@ -181,7 +183,7 @@ const Articles = () => {
           </div>
         </section>
         <section>
-          <h2 className="text-3xl text-slate-800 font-bold mb-2">
+          <h2 className="text-3xl text-slate-800 font-bold mb-2 dark:text-white">
             Recommended
           </h2>
           <ArticleCardList articles={recommendedList} />

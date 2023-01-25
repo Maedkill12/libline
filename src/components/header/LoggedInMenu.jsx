@@ -23,9 +23,9 @@ const ProfileMenu = () => {
     }
   };
   return (
-    <ul className="w-[280px] absolute bg-white right-4 top-8 py-4 rounded-lg shadow-lg shadow-slate-500 ">
+    <ul className="w-[280px] absolute bg-white dark:bg-slate-900 right-4 top-8 py-4 rounded-lg shadow-lg shadow-slate-500 dark:shadow-black">
       <li
-        className="pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 cursor-pointer flex flex-row items-center gap-4"
+        className="pl-4 text-lg text-slate-700 dark:text-white font-bold py-2 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer flex flex-row items-center gap-4"
         onClick={() => navigate(`/profile/${username}`)}
       >
         <FaUserCircle size={24} />
@@ -36,7 +36,7 @@ const ProfileMenu = () => {
         <p>Settings</p>
       </li> */}
       <li
-        className={`pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 flex flex-row items-center gap-4 ${
+        className={`pl-4 text-lg text-slate-700 dark:text-white font-bold py-2 hover:bg-slate-100 dark:hover:bg-slate-700 flex flex-row items-center gap-4 ${
           isPending ? "cursor-not-allowed" : "cursor-pointer"
         }`}
         onClick={logoutHandler}
@@ -59,7 +59,7 @@ const menu = [
 const LoggedInMenu = () => {
   return (
     <div>
-      <nav className="list-none flex flex-row-reverse gap-4 items-center">
+      <nav className="list-none flex flex-row-reverse gap-4 items-center dark:text-slate-200">
         {menu.map(({ Icon, Submenu }, i) => (
           <DropdownMenu
             main={<Icon size={32} />}

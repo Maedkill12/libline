@@ -9,7 +9,7 @@ const IconButton = ({
 }) => {
   return (
     <button
-      className={`cursor-pointer bg-slate-800 rounded-xl text-white flex flex-row gap-2 py-1 px-3 items-center gap shadow-md shadow-slate-500 hover:opacity-90 ${extraStyle}`}
+      className={`cursor-pointer bg-slate-800 dark:bg-slate-900 rounded-xl text-white flex flex-row gap-2 py-1 px-3 items-center gap shadow-md shadow-slate-500 dark:shadow-slate-900 hover:opacity-90 ${extraStyle}`}
       type={type}
     >
       {iconPosition === "left" && icon ? icon : null}
