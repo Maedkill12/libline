@@ -89,6 +89,34 @@ const useArticle = () => {
     [isCancelled]
   );
 
+  const getArticles = useCallback(
+    async (queryParams = "") => {
+      console.log("Getting articles");
+      setError(null);
+      setIsLoading(true);
+
+      try {
+        const response = await axios.get(
+          `${URL_API}/articles${queryParams ? `?${queryParams}` : ""}`
+        );
+
+        if (!isCancelled) {
+          setIsLoading(false);
+          setError(null);
+          return response.data.data;
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          const msg = error.response?.data?.err;
+          setError(msg);
+          setIsLoading(false);
+          return;
+        }
+      }
+    },
+    [isCancelled]
+  );
+
   const getArticlesByUsername = useCallback(
     async (username, queryParams = "") => {
       console.log("Getting articles by username");
@@ -156,6 +184,7 @@ const useArticle = () => {
     createArticle,
     deleteArticle,
     updateArticle,
+    getArticles,
   };
 };
 

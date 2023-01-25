@@ -33,6 +33,32 @@ const useUser = () => {
     [isCancelled]
   );
 
+  const getUsers = useCallback(
+    async (queryParams = "") => {
+      console.log("Getting users");
+      setError(null);
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `${URL_API}/users${queryParams ? `?${queryParams}` : ""}`
+        );
+
+        if (!isCancelled) {
+          setIsLoading(false);
+          setError(null);
+          return response.data.data;
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          const msg = error.response?.data?.err;
+          setError(msg);
+          setIsLoading(false);
+        }
+      }
+    },
+    [isCancelled]
+  );
+
   const updateUserByUsername = useCallback(
     async (username, data, accessToken) => {
       console.log("Updating user by username");
@@ -69,7 +95,13 @@ const useUser = () => {
     return () => setIsCancelled(true);
   }, []);
 
-  return { error, isLoading, getUserByUsername, updateUserByUsername };
+  return {
+    error,
+    isLoading,
+    getUserByUsername,
+    updateUserByUsername,
+    getUsers,
+  };
 };
 
 export default useUser;
