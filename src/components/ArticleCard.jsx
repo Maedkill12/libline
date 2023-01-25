@@ -5,15 +5,15 @@ import defaultIcon from "../assets/default.png";
 const ArticleCard = ({ title, year, username, frontPageURL = null, id }) => {
   return (
     <Link to={`/articles/${id}`}>
-      <div className="w-[175px] h-[300px] bg-slate-800 flex flex-col rounded-lg shadow-lg shadow-slate-800 overflow-hidden cursor-pointer">
-        <div className="h-[225px]">
+      <div className="w-full sm:w-[175px] h-[300px] bg-slate-800 flex flex-row sm:flex-col rounded-lg shadow-lg shadow-slate-800 overflow-hidden cursor-pointer">
+        <div className="h-full sm:h-[225px] w-1/2 sm:w-full">
           <img
             src={frontPageURL ? frontPageURL : defaultIcon}
-            className="h-full object-cover"
+            className="h-full w-full object-cover"
             alt="Front page"
           />
         </div>
-        <div className="text-white py-1 px-2 flex flex-col justify-between flex-grow">
+        <div className="text-white py-1 px-2 flex flex-col sm:justify-between flex-grow text-xl sm:text-sm">
           <h2 className="font-bold">{title}</h2>
           <div className="flex flex-row items-center justify-between">
             <h3>

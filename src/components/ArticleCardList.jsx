@@ -3,7 +3,7 @@ import ArticleCard from "./ArticleCard";
 
 const ArticleCardList = ({ articles }) => {
   return (
-    <div className="flex flex-row flex-wrap gap-4 mx-auto">
+    <div className="flex flex-col sm:flex-row flex-wrap gap-4 mx-auto">
       {articles &&
         articles.map((article) => (
           <ArticleCard

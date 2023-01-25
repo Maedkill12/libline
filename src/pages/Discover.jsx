@@ -8,12 +8,12 @@ import useUser from "../hooks/useUser";
 
 const Discover = () => {
   const [articles, setArticles] = useState(null);
-  const [limit, setLimit] = useState(5);
+  const [limit] = useState(5);
   const [page, setPage] = useState(1);
-  const { isLoading, getArticles } = useArticle();
+  const { getArticles } = useArticle();
   const [users, setUsers] = useState(null);
   const [pageUser, setPageUser] = useState(1);
-  const { isLoading: isLoadingUsers, getUsers } = useUser();
+  const { getUsers } = useUser();
 
   const loadMoreArticlesHandle = async () => {
     const articleList = await getArticles(
@@ -51,11 +51,7 @@ const Discover = () => {
     <div className="px-4">
       <section className="mb-4">
         <h2 className="text-slate-800 font-bold text-3xl">Last Articles...</h2>
-        {isLoading ? (
-          <div>Loading</div>
-        ) : (
-          <ArticleCardList articles={articles} />
-        )}
+        <ArticleCardList articles={articles} />
         <button
           className="cursor-pointer my-4  text-slate-800 text-lg italic border-2 border-solid border-slate-800 py-1 px-4 rounded-3xl hover:text-white hover:bg-slate-800"
           onClick={loadMoreArticlesHandle}
@@ -65,35 +61,30 @@ const Discover = () => {
       </section>
       <section className="mb-4">
         <h2 className="text-slate-800 font-bold text-3xl">Profiles</h2>
-        {isLoadingUsers ? (
-          <div>Loading</div>
-        ) : (
-          <div className="flex flex-row gap-4">
-            {users &&
-              users.map((user) => (
-                <div
-                  key={user._id}
-                  className="cursor-pointer flex flex-col justify-center"
-                >
-                  <Link to={`/profile/${user.username}`}>
-                    {user.photoURL ? (
-                      <img
-                        src={user.photoURL}
-                        className="h-44 w-44 rounded-full object-cover"
-                        alt="Profile"
-                      />
-                    ) : (
-                      <FaUserCircle size={180} color="rgb(30, 41, 59)" />
-                    )}
-                    <p className="text-center text-xl text-slate-800 font-bold">
-                      {user.username}
-                    </p>
-                  </Link>
-                </div>
-              ))}
-          </div>
-        )}
-
+        <div className="flex  flex-row gap-4 flex-wrap">
+          {users &&
+            users.map((user) => (
+              <div
+                key={user._id}
+                className="cursor-pointer flex flex-col justify-center"
+              >
+                <Link to={`/profile/${user.username}`}>
+                  {user.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      className="h-44 w-44 rounded-full object-cover"
+                      alt="Profile"
+                    />
+                  ) : (
+                    <FaUserCircle size={180} color="rgb(30, 41, 59)" />
+                  )}
+                  <p className="text-center text-xl text-slate-800 font-bold">
+                    {user.username}
+                  </p>
+                </Link>
+              </div>
+            ))}
+        </div>
         <button
           className="cursor-pointer my-4  text-slate-800 text-lg italic border-2 border-solid border-slate-800 py-1 px-4 rounded-3xl hover:text-white hover:bg-slate-800"
           onClick={loadMoreUsersHandle}

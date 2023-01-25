@@ -1,9 +1,9 @@
 import React from "react";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
-import { GrNotification } from "react-icons/gr";
+// import { GrNotification } from "react-icons/gr";
 import { FaUserCircle } from "react-icons/fa";
-import { FiSettings } from "react-icons/fi";
+// import { FiSettings } from "react-icons/fi";
 import DropdownMenu from "../DropdownMenu";
 import { useNavigate } from "react-router-dom";
 import useAccessToken from "../../hooks/useAccessToken";
@@ -31,10 +31,10 @@ const ProfileMenu = () => {
         <FaUserCircle size={24} />
         <p>Profile</p>
       </li>
-      <li className="pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 cursor-pointer flex flex-row items-center gap-4">
+      {/* <li className="pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 cursor-pointer flex flex-row items-center gap-4">
         <FiSettings size={24} />
         <p>Settings</p>
-      </li>
+      </li> */}
       <li
         className={`pl-4 text-lg text-slate-700 font-bold py-2 hover:bg-slate-100 flex flex-row items-center gap-4 ${
           isPending ? "cursor-not-allowed" : "cursor-pointer"
@@ -53,7 +53,7 @@ const menu = [
     Icon: CgProfile,
     Submenu: ProfileMenu,
   },
-  { Icon: GrNotification, Submenu: null },
+  // { Icon: GrNotification, Submenu: null },
 ];
 
 const LoggedInMenu = () => {

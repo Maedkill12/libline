@@ -108,8 +108,8 @@ const Articles = () => {
         </div>
       </EditModal>
       <div className="w-full  py-4 px-8 flex flex-col gap-2">
-        <section className="flex flex-row flex-nowrap gap-4 h-[500px]">
-          <div className="w-[400px]">
+        <section className="flex flex-col xl:flex-row flex-nowrap gap-4 xl:h-[500px]">
+          <div className="hidden xl:block xl:w-[400px]">
             <img
               src={article.frontPageURL ? article.frontPageURL : defaultIcon}
               alt="Front page"
@@ -131,8 +131,10 @@ const Articles = () => {
                   ({article.year})
                 </span>
               </h2>
-              <p className="px-4 w-[80%] text-justify">{article.description}</p>
-              <div className="flex-grow flex flex-row justify-between items-end">
+              <p className="px-4 w-[80%] text-justify italic my-4">
+                {article.description}
+              </p>
+              <div className="flex-grow flex flex-col gap-4 sm:gap-0 sm:flex-row justify-between items-end">
                 <div className="font-bold text-2xl">
                   By{" "}
                   <Link to={`/profile/${article.author.username}`}>
@@ -141,13 +143,13 @@ const Articles = () => {
                     </span>
                   </Link>
                 </div>
-                <div className="flex flex-row gap-4 list-none">
+                <div className="flex flex-col sm:flex-row gap-4 list-none w-full sm:w-auto">
                   {userLogged === article.author.username && (
                     <li onClick={openDeleteModal}>
                       <IconButton
                         icon={<BsFillTrashFill />}
-                        extraStyle={"bg-red-800"}
-                        iconPosition="right"
+                        extraStyle={"bg-red-800 w-full sm:w-auto"}
+                        iconPosition="left"
                       >
                         Delete
                       </IconButton>
@@ -155,16 +157,20 @@ const Articles = () => {
                   )}
                   {userLogged === article.author.username && (
                     <li onClick={openEditModal}>
-                      <IconButton icon={<MdModeEdit />} iconPosition="right">
+                      <IconButton
+                        icon={<MdModeEdit />}
+                        iconPosition="left"
+                        extraStyle={"w-full sm:w-auto"}
+                      >
                         Edit
                       </IconButton>
                     </li>
                   )}
                   <a href={article.docURL} target="_blank" rel="noreferrer">
                     <IconButton
-                      extraStyle={"bg-red-600"}
+                      extraStyle={"bg-red-600 w-full sm:w-auto"}
                       icon={<AiFillFilePdf />}
-                      iconPosition="right"
+                      iconPosition="left"
                     >
                       Read Now
                     </IconButton>

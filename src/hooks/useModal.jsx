@@ -24,7 +24,7 @@ const useModal = () => {
           className={`absolute top-0 left-0 h-full w-full flex items-center justify-center after:content-[""] after:h-full after:w-full  after:top-0 after:left-0 after:opacity-70 after:bg-gray-800 after:fixed`}
           onClick={_closeModal}
         >
-          <div className="opacity-100 z-10 fixed">{children}</div>
+          <div className="opacity-100 z-10 fixed ">{children}</div>
         </div>
       )}
     </>
